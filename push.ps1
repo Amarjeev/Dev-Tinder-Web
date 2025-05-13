@@ -10,3 +10,5 @@ git commit -m "Daily update - $today"
 
 # Push to GitHub
 git push
+
+# .\my-app\push.ps1

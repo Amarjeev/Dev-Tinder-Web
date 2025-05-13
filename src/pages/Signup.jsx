@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar/Navbar';
 import Alert from '../components/alert/Alert';
-// import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../utils/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('sajith@gmail.com');
   const [password, setPassword] = useState('amar123$');
   const [alertbar, setalertbar] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
-  // const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   async function logined(e) {
     e.preventDefault(); // Prevent default form submission
@@ -24,17 +27,22 @@ function Login() {
         { email, password },
         { withCredentials: true }
       );
+      
+      dispatch(addUser(res.data))
 
       if (res) {
         setalertbar(false);
         setErrorMessage('');
-        // navigate('/ra'); // Uncomment when ready to redirect
+        setTimeout(() => {
+          navigate('/usercard'); 
+        },2000)
+        
+       
       }
     } catch (error) {
-        console.error(error);
-        const e = error.response?.data?.emailerror
-        setErrorMessage(e);
-      
+      console.error(error);
+      const e = error.response?.data?.emailerror;
+      setErrorMessage(e);
     }
   }
 
@@ -47,10 +55,7 @@ function Login() {
           <div className="card-body p-6 flex flex-col items-center justify-center space-y-6">
             <h2 className="text-3xl font-extrabold text-center text-primary">Login</h2>
 
-            <form
-              className="form-control space-y-4 w-full items-center"
-              onSubmit={logined}
-            >
+            <form className="form-control space-y-4 w-full items-center" onSubmit={logined}>
               {/* Email Field */}
               <label className="input validator w-full">
                 <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -101,10 +106,7 @@ function Login() {
               </div>
 
               {/* Login Button */}
-              <button
-                type="submit"
-                className="btn bg-black text-white border-black w-full"
-              >
+              <button type="submit" className="btn bg-black text-white border-black w-full">
                 Login
               </button>
 
