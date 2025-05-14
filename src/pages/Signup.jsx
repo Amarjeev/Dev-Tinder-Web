@@ -5,6 +5,9 @@ import Alert from '../components/alert/Alert';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { BaseUrl } from '../components/BaseUrl/BaseUrl';
+
+
 
 function Login() {
   const [email, setEmail] = useState('sajith@gmail.com');
@@ -23,12 +26,15 @@ function Login() {
       }
 
       const res = await axios.post(
-        'http://localhost:5000/login',
+        BaseUrl+'login',
         { email, password },
         { withCredentials: true }
       );
-      
+ 
       dispatch(addUser(res.data))
+      if (!res) {
+        navigate('/signup'); 
+      }
 
       if (res) {
         setalertbar(false);
