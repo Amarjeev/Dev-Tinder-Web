@@ -5,49 +5,111 @@ import { addUser } from '../utils/userSlice';
 import { BaseUrl } from '../components/BaseUrl/BaseUrl';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Loading from '../components/Loading/Loading';
 
 function UserCard() {
-  // State to toggle edit mode
   const [isEditable, setIsEditable] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [editData, setEditData] = useState({
+    name: '',
+    age: '',
+    gender: '',
+    photoUrl: '',
+    email: ''
+  });
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Fetch user data from server
   const fetchUser = async () => {
     try {
       const response = await axios.get(BaseUrl + 'profile', {
         withCredentials: true,
       });
-      console.log(response.data);
-      dispatch(addUser(response.data)); // Store user data in Redux
+      dispatch(addUser(response.data));
+      setUserId(response.data._id);
+      setEditData({
+        name: response.data.name || '',
+        age: response.data.age || '',
+        gender: response.data.gender || '',
+        photoUrl: response.data.photoUrl || '',
+        email: response.data.email || '',
+      });
     } catch (error) {
       if (error.status === 500) {
-      
-        navigate('/signup'); // Navigate if internal server error
+        navigate('/signup');
         console.log('internal server error');
       }
       console.log(error);
     }
   };
 
-  // Run fetchUser once when component mounts
   useEffect(() => {
     fetchUser();
   }, []);
 
-  const user = useSelector((store) => store.user); // Get user from Redux store
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
-  //updating and Edit Profile for current user
+    // Update state
+    setEditData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // Validation
+    if (name === "name") {
+      if (!/^[A-Za-z\s]*$/.test(value)) {
+        setErrors((prev) => ({ ...prev, name: "Name must contain only letters and spaces." }));
+      } else if (value.length > 15) {
+        setErrors((prev) => ({ ...prev, name: "Only 15 characters allowed." }));
+      } else {
+        setErrors((prev) => ({ ...prev, name: "" }));
+      }
+    }
+
+    if (name === "age") {
+      const age = parseInt(value);
+      if (isNaN(age) || age < 0 || age > 120) {
+        setErrors((prev) => ({ ...prev, age: "Please enter a valid age between 0 and 120." }));
+      } else {
+        setErrors((prev) => ({ ...prev, age: "" }));
+      }
+    }
+
+    if (name === "gender") {
+      const gender = value.toLowerCase();
+      if (!["male", "female", "other"].includes(gender)) {
+        setErrors((prev) => ({ ...prev, gender: "Gender must be 'male', 'female', or 'other'." }));
+      } else {
+        setErrors((prev) => ({ ...prev, gender: "" }));
+      }
+    }
+  };
+
+  const handleSave = async () => {
+    if (errors.name || errors.age || errors.gender) {
+      alert("Please fix the validation errors before saving.");
+      return;
+    }
+
+    try {
+      const response = await axios.put(`${BaseUrl}edit/${userId}`, editData, { withCredentials: true });
+      fetchUser();
+      setIsEditable(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const user = useSelector((store) => store.user);
 
   return (
     <div>
       <Navbar />
 
-      {/* Main Container */}
-      <div className="min-h-screen flex justify-center items-center bg-neutral p-4 ">
+      <div className="min-h-screen flex justify-center items-center bg-neutral p-4">
         <div className="card lg:card-side bg-base-100 shadow-xl max-w-xl">
-          {/* User Image */}
           <figure className="w-1/3 h-auto overflow-hidden">
             <img
               src={user && user.photoUrl}
@@ -56,70 +118,76 @@ function UserCard() {
             />
           </figure>
 
-          {/* User Info Card */}
           <div className="card-body bg-base-100 text-white space-y-2 w-50">
             <h2 className="card-title text-lg font-bold">User Information</h2>
 
-            {/* Name Field */}
             <div className="flex items-center justify-between">
               <span>Name:</span>
               <input
+                name="name"
+                value={editData.name}
+                onChange={handleChange}
                 type="text"
-                defaultValue={user && user.name}
                 className="input input-sm input-bordered w-2/3"
                 readOnly={!isEditable}
               />
             </div>
+            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
 
-            {/* Age Field */}
             <div className="flex items-center justify-between">
               <span>Age:</span>
               <input
+                name="age"
+                value={editData.age}
+                onChange={handleChange}
                 type="text"
-                defaultValue={user && user.age}
                 className="input input-sm input-bordered w-2/3"
                 readOnly={!isEditable}
               />
             </div>
+            {errors.age && <p className="text-red-500 text-sm">{errors.age}</p>}
 
-            {/* Email Field */}
             <div className="flex items-center justify-between">
               <span>Email:</span>
               <input
+                name="email"
+                value={editData.email}
+                onChange={handleChange}
                 type="text"
-                defaultValue={user && user.email}
                 className="input input-sm input-bordered w-2/3"
                 readOnly
               />
             </div>
 
-            {/* Gender Field */}
             <div className="flex items-center justify-between">
               <span>Gender:</span>
               <input
+                name="gender"
+                value={editData.gender}
+                onChange={handleChange}
                 type="text"
-                defaultValue={user && user.gender}
                 className="input input-sm input-bordered w-2/3"
                 readOnly={!isEditable}
               />
             </div>
+            {errors.gender && <p className="text-red-500 text-sm">{errors.gender}</p>}
 
-            {/* Photo URL Field */}
             <div className="flex items-center justify-between">
               <span>Photo URL:</span>
               <input
+                name="photoUrl"
+                value={editData.photoUrl}
+                onChange={handleChange}
                 type="text"
-                defaultValue={user && user.photoUrl}
                 className="input input-sm input-bordered w-2/3"
                 readOnly={!isEditable}
               />
             </div>
 
-            {/* Buttons */}
             <div className="card-actions justify-end pt-4">
               {isEditable && (
                 <button
-                  onClick={() => setIsEditable(!isEditable)}
+                  onClick={handleSave}
                   className="btn bg-indigo-600 hover:bg-indigo-700 text-white btn-sm"
                 >
                   Save
