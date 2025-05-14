@@ -38,6 +38,8 @@ function UserCard() {
 
   const user = useSelector((store) => store.user); // Get user from Redux store
 
+  //updating and Edit Profile for current user
+
   return (
     <div>
       <Navbar />
@@ -87,7 +89,7 @@ function UserCard() {
                 type="text"
                 defaultValue={user && user.email}
                 className="input input-sm input-bordered w-2/3"
-                readOnly={!isEditable}
+                readOnly
               />
             </div>
 
