@@ -47,7 +47,6 @@ function UserCard() {
   useEffect(() => {
     fetchUser();
   }, []);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 

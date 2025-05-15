@@ -3,9 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProfileCard from './components/ProfileCard/ProfileCard';
 
 
-import Signup from './pages/Signup';
+
 import UserCard from './pages/UserCard';
-import Feed from './pages/feed';
+import PeopleList from './pages/PeopleList';
+import Login from './pages/login';
+import Signup from './pages/Signup';
+
 
 
 
@@ -15,11 +18,15 @@ function App() {
     <>
       
   <Router>
-  <Routes>
+        <Routes>
+          <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/profilecard' element={<ProfileCard />} />
           <Route path='/usercard' element={<UserCard />} />
-           <Route path='/feed' element={<Feed />} />
+         <Route path="/PeopleList/:id" element={<PeopleList />} />
+
+          
+          
             
           
           
