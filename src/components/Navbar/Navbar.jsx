@@ -62,10 +62,11 @@ function Navbar() {
                 <div className="badge badge-neutral h-7 px-4 hover:scale-105 transition-transform cursor-pointer">
                   ⏳ Pending Requests
                 </div>
-
+                 <Link to={'/usercard'}>
                 <div className="badge badge-info h-7 px-4 hover:scale-105 transition-transform cursor-pointer">
                   🙋‍♂️ My Profile
-                </div>
+                  </div>
+                  </Link>
               </div>
             </div>
           </div>

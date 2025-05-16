@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 
 function Loading() {
   return (
-    <div>
-      <span className="loading loading-ball loading-xs"></span>
-<span className="loading loading-ball loading-sm"></span>
-<span className="loading loading-ball loading-md"></span>
-<span className="loading loading-ball loading-lg"></span>
-<span className="loading loading-ball loading-xl"></span>
+    <div className="flex justify-center items-center min-h-screen">
+      <span className="loading loading-ball loading-xl"></span>
+      <span className="loading loading-ball loading-xl"></span>
+      <span className="loading loading-ball loading-xl"></span>
+      <span className="loading loading-ball loading-xl"></span>
+      <span className="loading loading-ball loading-xl"></span>
     </div>
-  )
+  );
 }
 
-export default Loading
+export default Loading;

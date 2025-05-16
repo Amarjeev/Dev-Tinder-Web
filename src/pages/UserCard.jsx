@@ -10,6 +10,7 @@ function UserCard() {
   const [isEditable, setIsEditable] = useState(false);
   const [userId, setUserId] = useState(null);
   const [errors, setErrors] = useState({});
+  const imageUrl="https://static.vecteezy.com/system/resources/previews/036/594/092/original/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg"
   const [editData, setEditData] = useState({
     name: '',
     age: '',
@@ -111,7 +112,8 @@ function UserCard() {
         <div className="card lg:card-side bg-base-100 shadow-xl max-w-xl">
           <figure className="w-1/3 h-auto overflow-hidden">
             <img
-              src={user && user.photoUrl}
+              // src={user&& user.photoUrl}
+              src={editData.photoUrl || imageUrl}
               alt="User"
               className="w-full h-full object-cover rounded-l-xl"
             />

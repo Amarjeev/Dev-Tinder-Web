@@ -6,6 +6,7 @@ import { addUser } from '../utils/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { BaseUrl } from '../components/BaseUrl/BaseUrl';
 import SignupNavbar from '../components/Navbar/SignupNavbar';
+import { Link } from 'react-router-dom';
 
 
 
@@ -37,14 +38,15 @@ function Login() {
       }
 
       if (res) {
+         navigate("/alert", { state: { message: "Login" } });
         setalertbar(false);
         setErrorMessage('');
         setTimeout(() => {
           navigate('/usercard'); 
         },2000)
-        
-       
       }
+         
+
     } catch (error) {
       console.error(error);
       const e = error.response?.data?.emailerror;
@@ -55,8 +57,6 @@ function Login() {
   return (
     <>
       {alertbar?<SignupNavbar/>:<Alert/>}
-      {/* <SignupNavbar /> */}
-      {/* <Navbar/> */}
 
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br -mt-9">
         <div className="card w-full max-w-sm shadow-2xl bg-base-100 border border-base-300 rounded-2xl">
@@ -105,12 +105,14 @@ function Login() {
               {errorMessage && (
                 <p className="text-red-500 text-sm text-center">{errorMessage}</p>
               )}
-
               {/* Forgot Password */}
               <div className="flex justify-between text-sm text-gray-500 w-full">
-                <a href="#" className="text-primary hover:underline">
-                  Forgot password?
-                </a>
+               <div className="flex justify-between text-sm text-gray-500 w-full">
+                 <Link to={"/forgotPassword"} className="text-primary hover:underline">
+                   Forgot password?
+                  </Link>
+                  </div>
+
               </div>
 
               {/* Login Button */}
