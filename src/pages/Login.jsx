@@ -1,3 +1,4 @@
+// Import necessary modules and components
 import React, { useState } from 'react';
 import axios from 'axios';
 import Alert from '../components/alert/Alert';
@@ -8,46 +9,60 @@ import { BaseUrl } from '../components/BaseUrl/BaseUrl';
 import SignupNavbar from '../components/Navbar/SignupNavbar';
 import { Link } from 'react-router-dom';
 
-
-
 function Login() {
-  const [email, setEmail] = useState('raina@gmail.com');
-  const [password, setPassword] = useState('amar123$');
-  const [alertbar, setalertbar] = useState(true);
-  const [errorMessage, setErrorMessage] = useState('');
+  // States for form fields and UI handling
+  const [email, setEmail] = useState('amarjeevm@gmail.com'); // Email input value
+  const [password, setPassword] = useState('amar123$');       // Password input value
+  const [alertbar, setalertbar] = useState(true);             // Controls whether to show SignupNavbar or Alert
+  const [errorMessage, setErrorMessage] = useState('');       // To show backend errors (like invalid credentials)
+
+  // Redux dispatcher
   const dispatch = useDispatch();
+
+  // Navigation hook from React Router
   const navigate = useNavigate();
 
+  // Function to handle login form submission
   async function logined(e) {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault(); // Prevent page reload on form submission
+
     try {
+      // Check if fields are empty
       if (!email || !password) {
         alert('Please fill in the form');
         return;
       }
 
+      // Send POST request to login API
       const res = await axios.post(
-        BaseUrl+'login',
+        BaseUrl + 'login',
         { email, password },
-        { withCredentials: true }
+        { withCredentials: true } // Include credentials (cookies)
       );
- 
-      dispatch(addUser(res.data))
+
+      // Add user to Redux store
+      dispatch(addUser(res.data));
+
+      // If no response, stay on login
       if (!res) {
-        navigate('/login'); 
+        navigate('/login');
       }
 
+      // On successful login
       if (res) {
-         navigate("/alert", { state: { message: "Login" } });
+        // Show alert and hide signup navbar
+        navigate("/alert", { state: { message: "Login" } });
         setalertbar(false);
         setErrorMessage('');
+
+        // Redirect to user card page after 2 seconds
         setTimeout(() => {
-          navigate('/usercard'); 
-        },2000)
+          navigate('/usercard');
+        }, 2000);
       }
-         
 
     } catch (error) {
+      // Handle backend error and show appropriate message
       console.error(error);
       const e = error.response?.data?.emailerror;
       setErrorMessage(e);
@@ -56,13 +71,16 @@ function Login() {
 
   return (
     <>
-      {alertbar?<SignupNavbar/>:<Alert/>}
+      {/* Show SignupNavbar initially, then Alert after login */}
+      {alertbar ? <SignupNavbar /> : <Alert />}
 
+      {/* Login UI container */}
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br -mt-9">
         <div className="card w-full max-w-sm shadow-2xl bg-base-100 border border-base-300 rounded-2xl">
           <div className="card-body p-6 flex flex-col items-center justify-center space-y-6">
             <h2 className="text-3xl font-extrabold text-center text-primary">Login</h2>
 
+            {/* Login form */}
             <form className="form-control space-y-4 w-full items-center" onSubmit={logined}>
               {/* Email Field */}
               <label className="input validator w-full">
@@ -101,26 +119,24 @@ function Login() {
                 />
               </label>
 
-              {/* Optional error message */}
+              {/* Show error message if login fails */}
               {errorMessage && (
                 <p className="text-red-500 text-sm text-center">{errorMessage}</p>
               )}
-              {/* Forgot Password */}
-              <div className="flex justify-between text-sm text-gray-500 w-full">
-               <div className="flex justify-between text-sm text-gray-500 w-full">
-                 <Link to={"/forgotPassword"} className="text-primary hover:underline">
-                   Forgot password?
-                  </Link>
-                  </div>
 
+              {/* Forgot Password Link */}
+              <div className="flex justify-between text-sm text-gray-500 w-full">
+                <Link to={"/forgotPassword"} className="text-primary hover:underline">
+                  Forgot password?
+                </Link>
               </div>
 
-              {/* Login Button */}
+              {/* Login Submit Button */}
               <button type="submit" className="btn bg-black text-white border-black w-full">
                 Login
               </button>
 
-              {/* Redirect to Signup */}
+              {/* Redirect to Signup Link */}
               <p className="text-sm text-center text-gray-500 w-full">
                 Don't have an account?{' '}
                 <a href="/signup" className="text-primary hover:underline">

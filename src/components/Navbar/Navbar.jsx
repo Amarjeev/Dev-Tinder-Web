@@ -86,7 +86,7 @@ function Navbar() {
               className="menu menu-sm dropdown-content mt-3 w-52 p-2 shadow bg-base-100 rounded-box z-50"
             >
               <li>
-                <Link to="/profilecard" className="justify-between">Profile</Link>
+                <Link to="/usercard" className="justify-between">Profile</Link>
               </li>
               <li>
                 <a>Settings</a>

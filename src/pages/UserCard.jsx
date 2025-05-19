@@ -1,3 +1,4 @@
+// Import required dependencies and components
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,10 +8,19 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function UserCard() {
+  // State for toggling edit mode
   const [isEditable, setIsEditable] = useState(false);
+  
+  // User ID to use in API call for update
   const [userId, setUserId] = useState(null);
+  
+  // State for input validation errors
   const [errors, setErrors] = useState({});
-  const imageUrl="https://static.vecteezy.com/system/resources/previews/036/594/092/original/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg"
+
+  // Placeholder image if photo URL is not available
+  const imageUrl = "https://static.vecteezy.com/system/resources/previews/036/594/092/original/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg";
+
+  // Editable user data object
   const [editData, setEditData] = useState({
     name: '',
     age: '',
@@ -22,13 +32,20 @@ function UserCard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Fetch user data from server and populate form fields
   const fetchUser = async () => {
     try {
       const response = await axios.get(BaseUrl + 'profile', {
         withCredentials: true,
       });
+
+      // Store user in Redux
       dispatch(addUser(response.data));
+
+      // Store userId separately for use in PUT request
       setUserId(response.data._id);
+
+      // Populate form fields
       setEditData({
         name: response.data.name || '',
         age: response.data.age || '',
@@ -38,26 +55,29 @@ function UserCard() {
       });
     } catch (error) {
       if (error.status === 500) {
-        navigate('/signup');
+        navigate('/signup'); // Redirect to signup on error
         console.log('internal server error');
       }
       console.log(error);
     }
   };
 
+  // Fetch user data on component mount
   useEffect(() => {
     fetchUser();
   }, []);
+
+  // Handle changes in form fields
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Update state
+    // Update form data
     setEditData((prev) => ({
       ...prev,
       [name]: value,
     }));
 
-    // Validation
+    // Perform input validation
     if (name === "name") {
       if (!/^[A-Za-z\s]*$/.test(value)) {
         setErrors((prev) => ({ ...prev, name: "Name must contain only letters and spaces." }));
@@ -87,41 +107,54 @@ function UserCard() {
     }
   };
 
+  // Save the updated user data
   const handleSave = async () => {
+    // Prevent save if any validation errors exist
     if (errors.name || errors.age || errors.gender) {
       alert("Please fix the validation errors before saving.");
       return;
     }
 
     try {
+      // API call to update user data
       const response = await axios.put(`${BaseUrl}edit/${userId}`, editData, { withCredentials: true });
+
+      // Refresh user data after update
       fetchUser();
+      
+      // Exit edit mode
       setIsEditable(false);
     } catch (error) {
       console.log(error);
     }
   };
 
+  // Get user from Redux store (not used directly in rendering but useful if needed)
   const user = useSelector((store) => store.user);
 
   return (
     <div>
+      {/* Top Navbar */}
       <Navbar />
 
+      {/* Main content */}
       <div className="min-h-screen flex justify-center items-center bg-neutral p-4">
         <div className="card lg:card-side bg-base-100 shadow-xl max-w-xl">
+          
+          {/* Left side: profile image */}
           <figure className="w-1/3 h-auto overflow-hidden">
             <img
-              // src={user&& user.photoUrl}
               src={editData.photoUrl || imageUrl}
               alt="User"
               className="w-full h-full object-cover rounded-l-xl"
             />
           </figure>
 
+          {/* Right side: user details form */}
           <div className="card-body bg-base-100 text-white space-y-2 w-50">
             <h2 className="card-title text-lg font-bold">User Information</h2>
 
+            {/* Name Field */}
             <div className="flex items-center justify-between">
               <span>Name:</span>
               <input
@@ -135,6 +168,7 @@ function UserCard() {
             </div>
             {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
 
+            {/* Age Field */}
             <div className="flex items-center justify-between">
               <span>Age:</span>
               <input
@@ -148,6 +182,7 @@ function UserCard() {
             </div>
             {errors.age && <p className="text-red-500 text-sm">{errors.age}</p>}
 
+            {/* Email Field (read-only) */}
             <div className="flex items-center justify-between">
               <span>Email:</span>
               <input
@@ -160,6 +195,7 @@ function UserCard() {
               />
             </div>
 
+            {/* Gender Field */}
             <div className="flex items-center justify-between">
               <span>Gender:</span>
               <input
@@ -173,6 +209,7 @@ function UserCard() {
             </div>
             {errors.gender && <p className="text-red-500 text-sm">{errors.gender}</p>}
 
+            {/* Photo URL Field */}
             <div className="flex items-center justify-between">
               <span>Photo URL:</span>
               <input
@@ -185,6 +222,7 @@ function UserCard() {
               />
             </div>
 
+            {/* Buttons: Save and Edit/Cancel */}
             <div className="card-actions justify-end pt-4">
               {isEditable && (
                 <button
