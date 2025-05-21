@@ -34,7 +34,7 @@ function Navbar() {
       {/* Right Side */}
       <div className="flex items-center gap-4">
         {/* Dropdown Menu for Badge Bar */}
-        {user && (
+        {/* //{user && ( */}
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-outline btn-sm m-1">
               📂 Menu
@@ -45,9 +45,11 @@ function Navbar() {
               className="dropdown-content z-[100] menu p-2 shadow bg-base-100 rounded-box w-max"
             >
               <div className="overflow-x-auto whitespace-nowrap flex gap-3 px-4 py-2 rounded-lg bg-base-200">
-                <div className="badge badge-primary h-7 px-4 hover:scale-105 transition-transform cursor-pointer">
+               <Link to={`/friendrequests/${_id}`}>
+              <div className="badge badge-primary h-7 px-4 hover:scale-105 transition-transform cursor-pointer">
                   🤝 Friend Requests
                 </div>
+                </Link>
 
                 <Link to={`/PeopleList/${_id}`}>
                   <div className="badge badge-secondary h-7 px-4 hover:scale-105 transition-transform cursor-pointer">
@@ -70,7 +72,7 @@ function Navbar() {
               </div>
             </div>
           </div>
-        )}
+        {/* )} */}
 
         {/* Avatar Dropdown */}
         {user && (

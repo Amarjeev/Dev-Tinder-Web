@@ -8,11 +8,13 @@ import { useNavigate } from 'react-router-dom';
 import { BaseUrl } from '../components/BaseUrl/BaseUrl';
 import SignupNavbar from '../components/Navbar/SignupNavbar';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
 
 function Login() {
   // States for form fields and UI handling
-  const [email, setEmail] = useState('amarjeevm@gmail.com'); // Email input value
-  const [password, setPassword] = useState('amar123$');       // Password input value
+  const [email, setEmail] = useState(''); // Email input value
+  const [password, setPassword] = useState('amar@123');       // Password input value
   const [alertbar, setalertbar] = useState(true);             // Controls whether to show SignupNavbar or Alert
   const [errorMessage, setErrorMessage] = useState('');       // To show backend errors (like invalid credentials)
 
@@ -71,6 +73,12 @@ function Login() {
 
   return (
     <>
+        <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -30 }}
+    transition={{ duration: 0.4 }}
+  >
       {/* Show SignupNavbar initially, then Alert after login */}
       {alertbar ? <SignupNavbar /> : <Alert />}
 
@@ -146,7 +154,8 @@ function Login() {
             </form>
           </div>
         </div>
-      </div>
+        </div>
+        </motion.div>
     </>
   );
 }

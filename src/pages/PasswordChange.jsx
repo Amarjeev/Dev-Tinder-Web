@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BaseUrl } from '../components/BaseUrl/BaseUrl';
 import Alert from '../components/alert/Alert';
+import { motion } from 'framer-motion';
 
 function PasswordChange() {
   // State variables for managing form inputs and error handling
@@ -69,6 +70,12 @@ function PasswordChange() {
 
   return (
     <>
+        <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -30 }}
+    transition={{ duration: 0.4 }}
+  >
       {/* Alert component shown after successful password change */}
       {alertbar && <Alert />}
 
@@ -118,7 +125,8 @@ function PasswordChange() {
             </div>
           </div>
         </div>
-      )}
+        )}
+        </motion.div>
     </>
   );
 }

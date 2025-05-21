@@ -1,0 +1,39 @@
+General toast box
+.Toastify__toast {
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 10px 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Success toast */
+.Toastify__toast--success {
+  background: linear-gradient(135deg, #4caf50, #66bb6a);
+  color: white;
+}
+
+/* Error toast */
+.Toastify__toast--error {
+  background: linear-gradient(135deg, #e53935, #ef5350);
+  color: white;
+}
+
+/* Info toast */
+.Toastify__toast--info {
+  background: linear-gradient(135deg, #2196f3, #42a5f5);
+  color: white;
+}
+
+/* Warning toast */
+.Toastify__toast--warning {
+  background: linear-gradient(135deg, #ffa000, #ffca28);
+  color: white;
+}
+
+/* Progress bar styling */
+.Toastify__progress-bar {
+  height: 5px;
+  background: white;
+  border-radius: 2px;
+}

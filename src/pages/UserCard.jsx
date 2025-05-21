@@ -6,6 +6,7 @@ import { addUser } from '../utils/userSlice';
 import { BaseUrl } from '../components/BaseUrl/BaseUrl';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 function UserCard() {
   // State for toggling edit mode
@@ -134,8 +135,16 @@ function UserCard() {
 
   return (
     <div>
+        <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -30 }}
+    transition={{ duration: 0.4 }}
+  >
       {/* Top Navbar */}
-      <Navbar />
+          <div className="sticky top-0 z-50 bg-white">
+  <Navbar />
+</div>
 
       {/* Main content */}
       <div className="min-h-screen flex justify-center items-center bg-neutral p-4">
@@ -241,7 +250,8 @@ function UserCard() {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+        </motion.div>
     </div>
   );
 }

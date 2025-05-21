@@ -5,6 +5,7 @@ import { BaseUrl } from '../components/BaseUrl/BaseUrl';
 import { useLocation } from 'react-router-dom';
 import Loading from '../components/Loading/Loading';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 function OtpVerification() {
   // State to store each digit of OTP
@@ -116,6 +117,12 @@ function OtpVerification() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-100">
+        <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -30 }}
+    transition={{ duration: 0.4 }}
+  >
       {loading ? (
         <Loading /> // Show loading animation while waiting for backend
       ) : (
@@ -182,7 +189,8 @@ function OtpVerification() {
             </h3>
           )}
         </div>
-      )}
+        )}
+        </motion.div>
     </div>
   );
 }

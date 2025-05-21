@@ -1,6 +1,7 @@
 // Import React and hooks
 import React, { useState } from 'react';
 import axios from 'axios';
+import { motion } from 'framer-motion';
 
 // Import custom components and helper
 import Alert from '../components/alert/Alert';
@@ -106,6 +107,12 @@ function Signup() {
 
   return (
     <>
+        <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -30 }}
+    transition={{ duration: 0.4 }}
+  >
       {/* Conditional rendering: show SignupNavbar or Alert */}
       {alertbar ? <SignupNavbar /> : <Alert />}
 
@@ -236,7 +243,8 @@ function Signup() {
             </div>
           </div>
         </div>
-      )}
+        )}
+        </motion.div>
     </>
   );
 }

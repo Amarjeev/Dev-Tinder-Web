@@ -4,6 +4,7 @@ import axios from 'axios';
 import { BaseUrl } from '../components/BaseUrl/BaseUrl'; // Base URL for backend API
 import Loading from '../components/Loading/Loading'; // Loading spinner component
 import { useNavigate } from 'react-router-dom'; // Navigation hook
+import { motion } from 'framer-motion';
 
 function ForgotPassword() {
   // State to hold email input
@@ -46,6 +47,12 @@ function ForgotPassword() {
 
   return (
     <div>
+        <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -30 }}
+    transition={{ duration: 0.4 }}
+  >
       {/* Show loading spinner while waiting for backend response */}
       {loading && <Loading />}
 
@@ -102,7 +109,8 @@ function ForgotPassword() {
       </div>
 
       {/* Optional test message after successful form submit */}
-      {show && <h1>fged</h1>}
+        {show && <h1>fged</h1>}
+        </motion.div>
     </div>
   );
 }
