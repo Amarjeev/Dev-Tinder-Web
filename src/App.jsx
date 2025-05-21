@@ -5,7 +5,6 @@ import { AnimatePresence } from 'framer-motion';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
-// import ProfileCard from './components/ProfileCard/ProfileCard';
 import UserCard from './pages/UserCard';
 import PeopleList from './pages/PeopleList';
 import Login from './pages/login';
@@ -16,6 +15,7 @@ import Loading from './components/Loading/Loading';
 import OtpVerification from './pages/OtpVerification';
 import PasswordChange from './pages/PasswordChange';
 import FriendRequests from './pages/FriendRequests';
+import FriendsList from './pages/FriendsList';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -25,7 +25,6 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        {/* <Route path="/profilecard" element={<ProfileCard />} /> */}
         <Route path="/usercard" element={<UserCard />} />
         <Route path="/PeopleList/:id" element={<PeopleList />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
@@ -34,6 +33,7 @@ function AnimatedRoutes() {
         <Route path="/otpVerification" element={<OtpVerification />} />
         <Route path="/PasswordChange" element={<PasswordChange />} />
         <Route path="/friendrequests/:id" element={<FriendRequests />} />
+         <Route path="/friendslist/:id" element={<FriendsList />} />
       </Routes>
     </AnimatePresence>
   );

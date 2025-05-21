@@ -56,10 +56,11 @@ function Navbar() {
                     💡 Suggestions
                   </div>
                 </Link>
-
+                <Link to={`/friendslist/${_id}`}>
                 <div className="badge badge-accent h-7 px-4 hover:scale-105 transition-transform cursor-pointer">
                   👥 Your Friends
                 </div>
+                </Link>
 
                 <div className="badge badge-neutral h-7 px-4 hover:scale-105 transition-transform cursor-pointer">
                   ⏳ Pending Requests
