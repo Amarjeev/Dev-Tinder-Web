@@ -7,10 +7,10 @@ import './App.css';
 
 import UserCard from './pages/UserCard';
 import PeopleList from './pages/PeopleList';
-import Login from './pages/login';
+import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Alert from './components/alert/Alert';
-import ForgotPassword from './pages/forgotPassword';
+import ForgotPassword from './pages/ForgotPassword';
 import Loading from './components/Loading/Loading';
 import OtpVerification from './pages/OtpVerification';
 import PasswordChange from './pages/PasswordChange';
